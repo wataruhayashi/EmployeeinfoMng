@@ -1,4 +1,4 @@
-package controller;
+package servlet;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class Logout extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    //セッション破棄
-	    HttpSession session = request.getSession();
+	    HttpSession session = request.getSession(false);
 	    session.invalidate();
 	    response.sendRedirect("Login.jsp");
 	}
