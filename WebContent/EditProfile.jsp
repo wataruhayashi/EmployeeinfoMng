@@ -38,7 +38,7 @@ if(rs.next()){
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link rel="stylesheet" type="text/css" href="css/add.css" />
+	<link rel="stylesheet" type="text/css" href="css2/add.css" />
 	<title>社員変更</title>
 </head>
 <body>
