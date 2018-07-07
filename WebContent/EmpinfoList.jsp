@@ -73,26 +73,22 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			ResultSet rs = ps.executeQuery();
 			%>
 
-			<form method="post" action="Query" name="ken" class="form-control">
-
-				<label class="col-sm-2 col-form-label">社員情報検索</label>
-
-				<div class="form-group row">
-					<label class="col-auto col-form-label">社員番号</label>
-					<div class="col">
-						<input type="text" name="employee_id" value="<%= id %>" class="form-control col-auto">
+			<div class="form-control bg-light"style="height:120px;">
+			<form method="post" action="Query" name="ken">
+				<div class="form-group row pt-2">
+					<label class="col-2 col-form-label text-center">社員番号</label>
+					<div class="col-4">
+						<input type="text" name="employee_id" value="<%= id %>" class="form-control">
 					</div>
-
-					<label class="col-auto col-form-label">社員名</label>
-					<div class="col">
-						<input type="text" name="employee_name" value="<%= name %>" class="form-control col-auto">
+					<label class="col-2 col-form-label text-center">社員名</label>
+					<div class="col-4">
+						<input type="text" name="employee_name" value="<%= name %>" class="form-control">
 					</div>
 				</div>
-
 				<div class="form-group row">
-					<label class="col-auto col-form-label mr-4">所属</label>
-					<div class="col">
-						<select name="department" class="form-control col-auto ml-2">
+					<label class="col-2 col-form-label text-center">所属</label>
+					<div class="col-4">
+						<select name="department" class="form-control">
 							<% while(rs.next()) { //全データを表示 %>
 								<option value="<%= rs.getString("department") %>">
 								<%= rs.getString("department") %>
@@ -102,19 +98,21 @@ SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 								ps.close();
 								db.close();
 							%>
-						</select>
+						</select><br/>
 					</div>
 
+					<div class="col-2"></div>
 					<div class="col-2">
-						<input type="submit" value="検索" class="form-control col-auto btn btn-dark">
+						<input type="submit" value="検索" class="col-auto form-control bg-dark text-light">
 					</div>
 					<div class="col-2">
-						<label class="form-control col-auto btn btn-secondary" onclick="clr()">クリア</label>
+						<label class="col-auto form-control bg-secondary text-center text-light" onClick="clr()">クリア</label>
 					</div>
 
 				</div>
 
 			</form>
+		</div>
 
 		</section>
 

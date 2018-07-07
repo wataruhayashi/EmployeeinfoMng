@@ -16,9 +16,7 @@ String yuza = (String)session.getAttribute("name");
 //登録履歴表示
 String busyo = request.getParameter("department");
 if(busyo == null || !Common.NameMatch("busyo")){ busyo = ""; }
-//エラー表示
-String err = (String)request.getAttribute("err");
-if(err == null){err = "";}
+
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -35,35 +33,58 @@ if(err == null){err = "";}
 	<title>部署登録</title>
 </head>
 <body>
-	<form method="post" action="Logout">
-		<h1><a href="Menu.jsp">社員情報管理システム</a></h1>
-		<div>
-			ログインユーザ名：<span><%= yuza %></span>
-				<input type="submit" value="ログアウト">
-		</div>
-		<h2>部署登録</h2>
-	</form>
-
-	<form method="post" action="AddDept">
-
-		<div>
-			<%= err %>
+	<header class="bg-info p-4 mb-5 clearfix text-light">
+		<div class="float-left">
+			<h5><a href="Menu.jsp" class="nav-link text-light">社員情報管理システム</a></h5>
 		</div>
 
+		<div class="float-right">
+			<form method="post" action="Logout">
+				<label class="navbar-brand"><i class="far fa-user mr-1"></i><%=yuza%></label>
+				<i class="fas fa-sign-out-alt"></i><input type="submit" value="ログアウト" class="btn btn-info">
+			</form>
+		</div>
+	</header>
+
+
+	<main class="w-50 mr-auto ml-auto sukima">
+		<div class="mt-5 mb-5">
+			<h4 class="bdr">部署登録</h4>
+		</div>
 		<div>
-			<label>部署名</label>
-			<input type="text" name="department" value="<%= busyo %>">
+			<form method="post" action="AddDept">
+				<!-------------------------エラー表示---------------------->
+
+				<% String err = (String)request.getAttribute("err"); %>
+				<% if(err != null) { %>
+					<label class="alert alert-danger form-control text-center" role="alert">
+						<%= err %>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+	  					</button>
+					</label>
+				<% } %>
+
+				<div class="form-group row">
+					<label class="col-2 col-form-label text-center">部署名</label>
+					<div class="col-8">
+						<input type="text" name="department" value="<%= busyo %>"class="form-control">
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-4"></div>
+					<div class="col-3">
+						<input type="submit" value="登録" class="btn btn-primary btn-block" onclick="return confirm('登録を行いますが、よろしいですか？')" />
+					</div>
+
+					<div class="col-3">
+						<a href="Menu.jsp"><input type="button" class="btn btn-light btn-block" value="キャンセル"></a>
+					</div>
+				</div>
+			</form>
 		</div>
 
-		<div>
-			<input type="submit" value="登録">
-		</div>
-
-	</form>
-
-	<div>
-		<a href="Menu.jsp"><input type="button" value="キャンセル"></a>
-	</div>
-
+	</main>
 </body>
 </html>

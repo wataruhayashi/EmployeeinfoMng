@@ -13,21 +13,7 @@ if(session.getAttribute("id") == null) {
 }
 //ユーザ名
 String yuza = (String)session.getAttribute("name");
-//エラー表示
-String err =(String)request.getAttribute("err");
-if(err == null){err = "";}
-String NulId =(String)request.getAttribute("NulId");
-if(NulId == null){NulId = "";}
-String NulName =(String)request.getAttribute("NulName");
-if(NulName == null){NulName = "";}
-String NulDep =(String)request.getAttribute("NulDep");
-if(NulDep == null){NulDep = "";}
-String NulPass =(String)request.getAttribute("NulPass");
-if(NulPass == null){NulPass = "";}
-String IdmissMatch =(String)request.getAttribute("IdmissMatch");
-if(IdmissMatch == null){IdmissMatch = "";}
-String NamemissMatch =(String)request.getAttribute("NamemissMatch");
-if(NamemissMatch == null){NamemissMatch = "";}
+
 //登録履歴表示
 String employee_id = request.getParameter("employee_id");
 if(employee_id == null || !Common.IdMatch(employee_id)){employee_id = "";}
@@ -60,98 +46,149 @@ Integer admin_level = Integer.parseInt(oz);
 </head>
 
 <body>
-	<form method="post" action="Logout">
-		<h1><a href="Menu.jsp">社員情報管理システム</a></h1>
-		<div>
-			ログインユーザー氏名：<span><%= yuza %></span>
-			<input type="submit" value="ログアウト">
-		</div>
-		<h2>社員登録</h2>
-	</form>
-
-	<form method="post" action="Add">
-		<div><%= err %></div>
-		<div><%= IdmissMatch %></div>
-		<div><%= NamemissMatch %></div>
-		<div><%= NulId %></div>
-		<div><%= NulName %></div>
-		<div><%= NulDep %></div>
-		<div><%= NulPass %></div>
-
-		<%
-		//tb_departmentテーブルに接続
-		request.setCharacterEncoding("UTF-8");
-		Context context = new InitialContext();
-		DataSource ds = (DataSource)context.lookup("java:comp/env/jdbc/kensyu");
-		Connection db = ds.getConnection();
-		PreparedStatement ps = db.prepareStatement("SELECT department FROM tb_department");
-		ResultSet rs = ps.executeQuery();
-		%>
-
-		<div>
-			<label>社員番号<span>＊</span>
-				<input type="text" name="employee_id" value="<%= employee_id %>"maxlength=5/>
-			</label>
+	<header class="bg-info p-4 mb-5 clearfix text-light">
+		<div class="float-left">
+			<h5><a href="Menu.jsp" class="nav-link text-light">社員情報管理システム</a></h5>
 		</div>
 
-		<div>
-			<label>社員氏名<span>＊</span>
-				<input type="text" name="employee_name" value="<%= employee_name %>" maxlength=20/>
-			</label>
+		<div class="float-right">
+			<form method="post" action="Logout">
+				<label class="navbar-brand"><i class="far fa-user mr-1"></i><%=yuza%></label>
+				<i class="fas fa-sign-out-alt"></i><input type="submit" value="ログアウト" class="btn btn-info">
+			</form>
 		</div>
+	</header>
 
+	<main class="w-50 mr-auto ml-auto sukima">
+		<div class="mt-5 mb-5">
+			<h4 class="bdr">社員登録</h4>
+		</div>
 		<div>
-			<label>所属<span>＊</span>
-				<select name="department">
-				<% while(rs.next()) { //全データを表示 %>
-				<option value="<%= rs.getString("department") %>">
-				<%= rs.getString("department") %>
-				</option>
-				<% }
-					rs.close();
-					ps.close();
-					db.close();
+			<form method="post" action="Add">
+				<%
+				String err =(String)request.getAttribute("err");
+				String NulId =(String)request.getAttribute("NulId");
+				String NulName =(String)request.getAttribute("NulName");
+				String NulDep =(String)request.getAttribute("NulDep");
+				String NulPass =(String)request.getAttribute("NulPass");
+				String IdmissMatch =(String)request.getAttribute("IdmissMatch");
+				String NamemissMatch =(String)request.getAttribute("NamemissMatch");
 				%>
-			</select>
-			</label>
+
+				<% if((err != null) || (IdmissMatch != null) || (NamemissMatch != null) || (NulId != null) || (NulName != null) || (NulDep != null) || (NulPass != null)) { %>
+					<div class="alert alert-danger text-center" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+	  				</button>
+					<% if(err != null) { %>
+						<div><%= err %></div>
+					<% } %>
+					<% if(IdmissMatch != null) { %>
+						<div><%= IdmissMatch %></div>
+					<% } %>
+					<% if(NamemissMatch != null) { %>
+						<div><%= NamemissMatch %></div>
+					<% } %>
+					<% if(NulId != null) { %>
+						<div><%= NulId %></div>
+					<% } %>
+					<% if(NulName != null) { %>
+						<div><%= NulName %></div>
+					<% } %>
+					<% if(NulDep != null) { %>
+						<div><%= NulDep %></div>
+					<% } %>
+					<% if(NulPass != null) { %>
+						<div><%= NulPass %></div>
+					<% } %>
+
+					</div>
+				<% } %>
+
+				<%
+				//tb_departmentテーブルに接続
+				request.setCharacterEncoding("UTF-8");
+				Context context = new InitialContext();
+				DataSource ds = (DataSource)context.lookup("java:comp/env/jdbc/kensyu");
+				Connection db = ds.getConnection();
+				PreparedStatement ps = db.prepareStatement("SELECT department FROM tb_department");
+				ResultSet rs = ps.executeQuery();
+				%>
+
+				<div class="form-group row">
+					<label class="col-3 col-form-label text-center">社員番号<span class="text-danger">＊</span></label>
+					<div class="col-7">
+						<input type="text" name="employee_id" value="<%= employee_id %>" maxlength=5 class="form-control"/>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-3 col-form-label text-center">社員氏名<span class="text-danger">＊</span></label>
+					<div class="col-7">
+						<input type="text" name="employee_name" value="<%= employee_name %>"maxlength=20 class="form-control"/>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-3 col-form-label text-center">所属<span class="text-danger">＊</span></label>
+					<div class="col-7">
+						<select name="department" class="form-control">
+						<% while(rs.next()) { //全データを表示 %>
+						<option value="<%= rs.getString("department") %>">
+						<%= rs.getString("department") %>
+						</option>
+						<% }
+							rs.close();
+							ps.close();
+							db.close();
+						%>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-3 col-form-label text-center">役職</label>
+					<div class="col-7">
+						<input type="text" name="post" value="<%= post %>" maxlength=20 class="form-control"/>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-3 col-form-label text-center">入社日</label>
+					<div class="col-7">
+						<input type="date" name="entry_date" value="<%= entry_date %>" class="form-control"/>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label class="col-3 col-form-label text-center">パスワード<span class="text-danger">＊</span></label>
+					<div class="col-7">
+						<input type="password" name="password" value="<%= password %>" maxlength=20 class="form-control"/>
+					</div>
+				</div>
+
+
+				<div class="form-group row">
+					<label class="col-3 col-form-label text-center">管理権限</label>
+					<div class="col-7">
+						<select name="admin_level" class="form-control">
+						<option value="<%= Common.AUTH_GENE %>" <% if(admin_level == Common.AUTH_GENE){ %> selected <% } %>>閲覧のみ</option>
+						<option value="<%= Common.AUTH_MANE %>" <% if(admin_level == Common.AUTH_MANE){ %> selected <% } %>>登録編集可</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="col-4"></div>
+					<div class="col-3">
+						<input type="submit" value="登 録" class="btn btn-primary form-control" onclick="return confirm('登録を行いますが、よろしいですか？')"/>
+					</div>
+
+					<div class="col-3">
+							<a href="List"><input type="button" class="btn btn-light btn-block" value="キャンセル"></a>
+					</div>
+				</div>
+			</form>
 		</div>
-
-		<div>
-			<label>役職
-				<input type="text" name="post" value="<%= post %>"/>
-			</label>
-		</div>
-
-		<div>
-			<label>入社日
-				<input type="date" name="entry_date" value="<%= entry_date %>"/>
-			</label>
-		</div>
-
-		<div>
-			<label>パスワード<span>＊</span>
-				<input type="password" name="password" value="<%= password %>"/>
-			</label>
-		</div>
-
-
-		<div>
-			<label>管理権限
-				<select name="admin_level">
-				<option value="<%= Common.AUTH_GENE %>" <% if(admin_level == Common.AUTH_GENE){ %> selected <% } %>>閲覧のみ</option>
-				<option value="<%= Common.AUTH_MANE %>" <% if(admin_level == Common.AUTH_MANE){ %> selected <% } %>>登録編集可</option>
-				</select>
-			</label>
-		</div>
-
-		<div>
-			<input type="submit" value="登 録"/>
-		</div>
-
-	</form>
-
-	<div>
-		<a href="List"><button>キャンセル</button></a>
-	</div>
-
+	</main>
 </body>
