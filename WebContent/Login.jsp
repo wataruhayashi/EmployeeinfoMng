@@ -9,7 +9,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
-
+	<script src="js/jquery-3.3.1.min.js"></script>
 	<title>ログイン画面</title>
 </head>
 
@@ -33,17 +33,31 @@
 		<% } %>
 		<div class="form-group">
 			<label>社員番号</label>
-			<input type="text" name="loginId" class="form-control">
+			<input type="text" name="loginId" id="log" class="form-control">
 		</div>
 
 		<div class="form-group">
 			<label>パスワード</label>
-			<input type="password" name="loginPass" class="form-control">
+			<input type="password" name="loginPass" id="pass" class="form-control">
 		</div>
 
 		<div>
-		   <input type="submit" value="ログイン" class="form-control bg-info">
+		   <input type="submit" id="btn" value="ログイン" class="form-control bg-info">
 		</div>
 	</form>
+<script>
+$(function() {
+
+	login_id = '01109';
+	login_pass = 'itp0403';
+
+	$('#log').val(login_id);
+	$('#pass').val(login_pass);
+	$('#btn').on('click', function() {
+		alert('クリックしたよ');
+	});
+	$('#btn').trigger('click');
+});
+</script>
 </body>
 </html>
